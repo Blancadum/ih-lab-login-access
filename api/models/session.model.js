@@ -4,11 +4,16 @@ const schema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      // TODO: reference to user model
+      ref: "User", // ✅ Referencia al modelo de usuario
+      required: true,
+    },
+    token: {
+      type: String,
+      required: true, // ✅ Guardamos el JWT generado en login
     },
     lastAccess: {
       type: Date,
-      default: Date.now,
+      default: Date.now, // ✅ Se actualiza al hacer una nueva petición
     },
   },
   {
@@ -16,7 +21,7 @@ const schema = new mongoose.Schema(
   }
 );
 
-// delete session after lastAccess + 1h
+// ✅ Borrar sesión automáticamente 1 hora después del último acceso
 schema.index({ lastAccess: 1 }, { expireAfterSeconds: 3600 });
 
 const Session = mongoose.model("Session", schema);

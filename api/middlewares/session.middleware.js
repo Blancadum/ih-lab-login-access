@@ -1,23 +1,35 @@
 const Session = require("../models/session.model");
 const createError = require("http-errors");
 
-module.exports.checkSession = (req, res, next) => {
-  // find session id from cookie. imagine cookie is "session=1234; other=5678"
-  const sessionId = "TO DO!";
+module.exports.checkSession = async (req, res, next) => {
+  try {
+    // 1. Obtener el session_id desde la cookie
+    const sessionId = req.cookies.session_id;
 
-  if (!sessionId) {
-    next(createError(401, "missing session from cookie header"));
+    if (!sessionId) {
+      return next(createError(401, "Falta la sesión en la cookie"));
+    }
+
+    // 2. Buscar la sesión en la base de datos y poblar el campo `user`
+    const session = await Session.findOne({ token: sessionId }).populate("user");
+
+    if (!session) {
+      return next(createError(401, "Sesión inválida o expirada"));
+    }
+
+    // 3. Actualizar el último acceso de la sesión
+    session.lastAccess = new Date();
+
+    // 4. Guardar los cambios en la sesión
+    await session.save();
+
+    // 5. Dejar los datos de sesión y usuario en `req`
+    req.session = session;
+    req.user = session.user;
+
+    // 6. Continuar con el siguiente middleware o controlador
+    next();
+  } catch (error) {
+    next(error);
   }
-
-  // 1. find session by ID
-  // 2. populate user field
-  // 3. update session last access
-  // 5. save session
-  // 6. leave user on req object
-  // 7. leave session on req object
-  // 8. continue to next middleware or controller
-  // 9. handle errors with 401 code
-
-  // TODO: remove this line when done
-  next();
 };
