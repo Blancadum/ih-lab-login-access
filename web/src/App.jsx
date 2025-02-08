@@ -9,4 +9,4 @@ function App() {
   );
 }
 
-export default App;  // Este es el export por defecto
+export default App; 
