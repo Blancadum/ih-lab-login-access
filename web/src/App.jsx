@@ -1,17 +1,12 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/home/home";
-import Login from "./pages/login/login";
-import Register from "./pages/register/register";
+// App.jsx
+import React from "react";
 
 function App() {
   return (
-    <Routes>
-      {/* Routes go here */}
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Register />} />
-    </Routes>
+    <div>
+      <h1>Holi Mundo</h1>
+    </div>
   );
 }
 
-export default App;
+export default App;  // Este es el export por defecto
