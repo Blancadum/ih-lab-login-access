@@ -21,3 +21,6 @@ app.use("/api/v1/", routes);
 const port = Number(process.env.PORT || 3000);
 
 app.listen(port, () => console.info(`Application running at port ${port}`));
+
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());

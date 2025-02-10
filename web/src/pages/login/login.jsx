@@ -1,30 +1,32 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/api-service";
+import LoginForm from "../../components/LoginForm";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Login() {
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await login({ email, password });
-      navigate("/"); // Redirige a Home después de iniciar sesión
-    } catch (error) {
-      console.error("Error al iniciar sesión", error);
+  const handleLogin = async (email, password) => {
+    const res = await fetch("http://localhost:3000/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    });
+
+    if (res.ok) {
+      alert("Login exitoso");
+      navigate("/");
+    } else {
+      alert("Error en el login. Revisa tus credenciales.");
     }
   };
 
   return (
     <div>
-      <h1>Iniciar Sesión</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Correo electrónico" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Contraseña" required />
-        <button type="submit">Login</button>
-      </form>
+      <h2>Iniciar Sesión</h2>
+      <LoginForm onSubmit={handleLogin} /> {/* Se usa el componente */}
+      <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
     </div>
   );
 }
+
+export default Login;

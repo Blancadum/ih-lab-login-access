@@ -12,5 +12,8 @@
   "repository": {
     "type": "git",
     "url": "npm install "
+  },
+  "dependencies": {
+    "express": "^4.21.2"
   }
 }

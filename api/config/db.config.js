@@ -5,20 +5,20 @@ const MONGODB_URI =
 
 mongoose
   .connect(MONGODB_URI)
-  .then(() =>
-    console.info(`Successfully connected to the database ${MONGODB_URI}`)
-  )
+  .then(() => console.info(`✅ Conectado a la base de datos: ${MONGODB_URI}`))
   .catch((error) => {
-    console.error(
-      `An error occurred trying to connect to the database ${MONGODB_URI}`,
-      error
-    );
-    process.exit(0);
+    console.error(`❌ Error al conectar con la base de datos:`, error);
+    process.exit(1); // Salir con código de error
   });
 
-process.on("SIGINT", () => {
-  mongoose.connection.close().finally(() => {
-    console.log(`Database connection closed`);
+// Manejo de eventos para cerrar la conexión de forma segura
+process.on("SIGINT", async () => {
+  try {
+    await mongoose.connection.close();
+    console.log("🔌 Conexión a la base de datos cerrada correctamente");
     process.exit(0);
-  });
+  } catch (error) {
+    console.error("❌ Error al cerrar la conexión de la base de datos", error);
+    process.exit(1);
+  }
 });

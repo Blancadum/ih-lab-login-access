@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { profile } from "../../services/api-service";
 
-export default function Home() {
-  const [user, setUser] = useState(null);
+function Home({ user, logout }) {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    profile()
-      .then(setUser)
-      .catch(() => navigate("/login")); // Redirige a Login si no está autenticado
-  }, []);
+  if (!user) {
+    return (
+      <div>
+        <p>No has iniciado sesión</p>
+        <button onClick={() => navigate("/login")}>Iniciar Sesión</button>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <h1>Bienvenido, {user ? user.email : "Cargando..."}</h1>
-    </div>
+      <h1>Bienvenido, {user.email}</h1>
+      <button onClick={logout}>Cerrar Sesión</button>
+      </div>
   );
 }
+
+export default Home;
