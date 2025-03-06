@@ -1,7 +1,7 @@
 const createError = require("http-errors");
 const User = require("../models/user");
 
-// 📌 Crear un nuevo usuario
+// Crear un nuevo usuario
 module.exports.create = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
@@ -11,12 +11,12 @@ module.exports.create = async (req, res, next) => {
   }
 };
 
-// 📌 Obtener perfil del usuario autenticado
+// Obtener perfil del usuario autenticado
 module.exports.profile = (req, res, next) => {
   res.json(req.user);
 };
 
-// 📌 Listar todos los usuarios (opcional)
+// Listar todos los usuarios (opcional)
 module.exports.list = async (req, res, next) => {
   try {
     const users = await User.find().select("-password"); // Excluye la contraseña

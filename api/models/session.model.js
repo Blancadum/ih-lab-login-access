@@ -4,7 +4,7 @@ const schema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // ✅ Referencia al modelo de usuario
+      ref: "User", //Referencia al modelo de usuario
       required: true,
     },
     token: {
@@ -13,7 +13,7 @@ const schema = new mongoose.Schema(
     },
     lastAccess: {
       type: Date,
-      default: Date.now, // ✅ Se actualiza al hacer una nueva petición
+      default: Date.now, //Se actualiza al hacer una nueva petición
     },
   },
   {
@@ -21,7 +21,7 @@ const schema = new mongoose.Schema(
   }
 );
 
-// ✅ Borrar sesión automáticamente 1 hora después del último acceso
+// Borrar sesión automáticamente 1 hora después del último acceso
 schema.index({ lastAccess: 1 }, { expireAfterSeconds: 3600 });
 
 const Session = mongoose.model("Session", schema);
