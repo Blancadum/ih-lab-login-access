@@ -1,11 +1,27 @@
 const createError = require("http-errors");
-const User = require("../models/user.model");
+const User = require("../models/user");
 
-module.exports.create = (req, res, next) => {
-  res.json({ message: "TO DO!" });
+// 📌 Crear un nuevo usuario
+module.exports.create = async (req, res, next) => {
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
 };
 
+// 📌 Obtener perfil del usuario autenticado
 module.exports.profile = (req, res, next) => {
-  // access current request user
-  res.json({ message: "TO DO!" });
+  res.json(req.user);
+};
+
+// 📌 Listar todos los usuarios (opcional)
+module.exports.list = async (req, res, next) => {
+  try {
+    const users = await User.find().select("-password"); // Excluye la contraseña
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
 };

@@ -2,10 +2,11 @@
   "name": "ih-lab-login-access",
   "version": "1.0.0",
   "description": "En este lab vamos a construir una app full stack (API + WEB) que nos permita registrar a un usuario, hacer login y acceder a la página principal (perfil del usuario) únicamente si el usuario tiene una sesión activa.",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,13 @@
     "url": "npm install "
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "errors": "^0.3.0",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.9"
   }
 }

@@ -15,12 +15,11 @@ app.use(cors);
 
 /* API Routes Configuration */
 const routes = require("./config/routes.config");
-const corsMiddleware = require("./middlewares/cors.middleware");
 app.use("/api/v1/", routes);
 
-const port = Number(process.env.PORT || 3000);
+const port = Number(process.env.PORT || 5000);
 
-app.listen(port, () => console.info(`Application running at port ${port}`));
+app.listen(port, () => console.info(`Application running at port ${port} 🚀`));
 
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());

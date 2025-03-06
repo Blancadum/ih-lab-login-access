@@ -1,52 +1,47 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
 const createError = require("http-errors");
-const users = require("../controllers/users.controller");
-const sessions = require("../controllers/sessions.controller");
-const auth = require("../middlewares/session.middleware"); // Middleware de autenticación
 
-// 📌 Rutas de Usuarios
-router.post("/users", users.create); // Crear usuario
-router.get("/users/me", auth.checkSession, users.profile); // Perfil protegido
+// Importar controladores
+const usersController = require("../controllers/users.controller");
+const sessionsController = require("../controllers/sessions.controller");
 
-// 📌 Rutas de Sesión
-router.post("/sessions", sessions.create); // Iniciar sesión
-router.delete("/sessions", auth.checkSession, sessions.destroy); // Cerrar sesión protegida
+// Importar middleware de autenticación
+const auth = require("../middlewares/session.middleware");
 
-// 📌 Middleware para Rutas No Encontradas (404)
+
+// Nueva ruta para devolver el JSON de usuarios
+router.get("/data/users", (req, res) => {
+  const filePath = path.join(__dirname, "../data/users.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: "Error al leer el archivo" });
+    }
+    res.json(JSON.parse(data));
+  });
+});
+//Rutas de Usuarios
+router.post("/users", usersController.create);  // Registro de usuario
+router.get("/users/me", auth.checkSession, usersController.profile);  // Perfil protegido
+
+//Rutas de Sesión
+router.post("/sessions", sessionsController.create);  // Inicio de sesión
+router.delete("/sessions", auth.checkSession, sessionsController.destroy);  // Cierre de sesión
+
+//Middleware para manejar rutas no encontradas (404)
 router.use((req, res, next) => {
-  next(createError(404, "Route not found"));
+  next(createError(404, "Ruta no encontrada"));
 });
 
-// 📌 Middleware Global de Manejo de Errores
+//Middleware Global para Manejo de Errores
 router.use((error, req, res, next) => {
-  if (
-    error instanceof mongoose.Error.CastError &&
-    error.message.includes("_id")
-  ) {
-    error = createError(404, "Resource not found");
-  } else if (error instanceof mongoose.Error.ValidationError) {
-    error = createError(400, error);
-  } else if (!error.status) {
-    error = createError(500, "Internal Server Error");
-  }
+  console.error(`[ERROR] ${error.status || 500}: ${error.message}`);
 
-  console.error(`[ERROR] ${error.status}: ${error.message}`);
-
-  const data = {
+  res.status(error.status || 500).json({
     message: error.message,
-  };
-
-  if (error.errors) {
-    data.errors = Object.keys(error.errors).reduce((errors, key) => {
-      errors[key] =
-        error.errors[key]?.message || error.errors[key];
-      return errors;
-    }, {});
-  }
-
-  res.status(error.status).json(data);
+    errors: error.errors || undefined,
+  });
 });
 
 module.exports = router;

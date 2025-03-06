@@ -9,7 +9,7 @@ const schema = new mongoose.Schema(
     },
     token: {
       type: String,
-      required: true, // ✅ Guardamos el JWT generado en login
+      required: true, //Guardamos el JWT generado en login
     },
     lastAccess: {
       type: Date,

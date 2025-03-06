@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "name": "Anita",
+    "surname": "Martín",
+    "email": "anita.martin@example.com",
+    "password": "Passw0rd!",
+    "role": "patient",
+    "avatar": "https://i.pravatar.cc/350?u=anita.martin@example.com"
+  },
+  {
+    "id": "2",
+    "name": "Carlos",
+    "surname": "Fernández",
+    "email": "carlos.fernandez@example.com",
+    "password": "Str0ngP@ss!",
+    "role": "psychologist",
+    "avatar": "https://i.pravatar.cc/350?u=carlos.fernandez@example.com"
+  },
+  {
+    "id": "3",
+    "name": "Lucía",
+    "surname": "Ramírez",
+    "email": "lucia.ramirez@example.com",
+    "password": "SecureP@ss123",
+    "role": "patient",
+    "avatar": "https://i.pravatar.cc/350?u=lucia.ramirez@example.com"
+  },
+  {
+    "id": "4",
+    "name": "Miguel",
+    "surname": "López",
+    "email": "miguel.lopez@example.com",
+    "password": "P@ssw0rdStrong!",
+    "role": "psychologist",
+    "avatar": "https://i.pravatar.cc/350?u=miguel.lopez@example.com"
+  }
+]
